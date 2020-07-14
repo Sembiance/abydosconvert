@@ -21,7 +21,8 @@ void abydosconvert(void)
 		exit(EXIT_FAILURE);
 	}
 
-	surface = abydos_get_image_surface(ar, ABYDOS_PREFER_SHARE | ABYDOS_IGNORE_ASPECT_RATIO);
+	//surface = abydos_get_image_surface(ar, ABYDOS_PREFER_SHARE | ABYDOS_IGNORE_ASPECT_RATIO);
+	surface = abydos_get_image_surface(ar);
 	abydos_destroy(ar);
 
 	if(cairo_surface_write_to_png(surface, gConfig.outputFilePath)!=CAIRO_STATUS_SUCCESS)

@@ -21,4 +21,4 @@ set(abydosconvert_srcs
 add_executable(abydosconvert ${abydosconvert_srcs})
 target_link_libraries(abydosconvert "-lm")
 target_link_libraries(abydosconvert "-lcairo")
-target_link_libraries(abydosconvert "-labydos-0.1")
+target_link_libraries(abydosconvert "-labydos-0.2")
