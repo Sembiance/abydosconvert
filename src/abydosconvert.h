@@ -22,7 +22,7 @@ typedef struct
 	bool verbose;
 	char * mimeType;
 	char * inputFilePath;
-	char * outputFilePath;
+	char * outputDirPath;
 } Config;
 
 /*-----------------------------------------------------------------------------

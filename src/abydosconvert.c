@@ -1,12 +1,13 @@
 #include "abydosconvert.h"
 
 #include <abydos.h>
-#include <cairo.h>
 
 void abydosconvert(void)
 {		
+	char outputFilePath[16384];
 	abydos_t * ar;
-	cairo_surface_t * surface;
+    const char * basename = strrchr(gConfig.inputFilePath, '/');
+    basename = basename ? basename+1 : gConfig.inputFilePath;
 
 	ar = abydos_create(gConfig.mimeType);
 	if(!ar)
@@ -21,18 +22,37 @@ void abydosconvert(void)
 		exit(EXIT_FAILURE);
 	}
 
-	//surface = abydos_get_image_surface(ar, ABYDOS_PREFER_SHARE | ABYDOS_IGNORE_ASPECT_RATIO);
-	surface = abydos_get_image_surface(ar);
-	abydos_destroy(ar);
+	abydos_info_t info;
+	abydos_get_info(ar, &info);
+	printf("{ \"width\" : %d", info.width);
+	printf(", \"height\" : %d", info.height);
+	printf(", \"scalable\" : %s", info.features&ABYDOS_FEATURE_SCALABLE_SIZE ? "true" : "false");
+	printf(", \"animated\" : %s", abydos_can_animate(ar) ? "true" : "false");
+	printf(", \"pages\" : %d", abydos_get_page_count(ar));
+	printf(", \"layers\" : %d", abydos_get_layer_count(ar));
+	printf(", \"variants\" : %d", abydos_get_variant_count(ar));
+	printf(", \"frames\" : %d", abydos_get_frame_count(ar));
+	printf(", \"scalableTime\" : %s }\n", info.features&ABYDOS_FEATURE_SCALABLE_TIME ? "true" : "false");
 
-	if(cairo_surface_write_to_png(surface, gConfig.outputFilePath)!=CAIRO_STATUS_SUCCESS)
+	if(info.features&ABYDOS_FEATURE_SCALABLE_SIZE || abydos_can_animate(ar))
 	{
-		fprintf(stderr, "Failed to write to output file: %s\n", gConfig.outputFilePath);
-		cairo_surface_destroy(surface);
-		exit(EXIT_FAILURE);
+		if(info.features&ABYDOS_FEATURE_SCALABLE_SIZE)
+		{
+			sprintf(outputFilePath, "%s/%s.svg", gConfig.outputDirPath, basename);
+			abydos_write_to_svg(ar, outputFilePath);
+		}
+
+		if(abydos_can_animate(ar))
+		{
+			sprintf(outputFilePath, "%s/%s.webp", gConfig.outputDirPath, basename);
+			abydos_write_to_webp(ar, outputFilePath);
+		}
 	}
-	
-	cairo_surface_destroy(surface);
+	else
+	{
+		sprintf(outputFilePath, "%s/%s.png", gConfig.outputDirPath, basename);
+		abydos_write_to_png(ar, outputFilePath);
+	}
 	
     return;
 }

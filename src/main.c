@@ -9,7 +9,7 @@ static void usage(void)
 	fprintf(stderr,
 			"abydosconvert %s\n"
 			"\n"
-			"Usage: abydosconvert [OPTIONS] mimeType inputFile out.png\n"
+			"Usage: abydosconvert [OPTIONS] mimeType inputFilePath outputDirPath\n"
 			"  -v, --verbose           Verbose output\n"
 			"  -h, --help              Output this help and exit\n"
 			"  -V, --version           Output version and exit\n"
@@ -23,7 +23,7 @@ static void parse_options(int argc, char **argv)
 
 	gConfig.verbose = false;
 	gConfig.inputFilePath = 0;
-	gConfig.outputFilePath = 0;
+	gConfig.outputDirPath = 0;
 
 	for(i=1;i<argc;i++)
 	{
@@ -63,7 +63,7 @@ static void parse_options(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-	gConfig.outputFilePath = argv[2];
+	gConfig.outputDirPath = argv[2];
 }
 
 int main(int argc, char ** argv)
