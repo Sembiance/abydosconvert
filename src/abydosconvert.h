@@ -20,6 +20,7 @@
 typedef struct
 {
 	bool verbose;
+	bool json;
 	char * mimeType;
 	char * inputFilePath;
 	char * outputDirPath;

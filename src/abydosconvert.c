@@ -9,6 +9,9 @@ void abydosconvert(void)
     const char * basename = strrchr(gConfig.inputFilePath, '/');
     basename = basename ? basename+1 : gConfig.inputFilePath;
 
+	if(gConfig.verbose)
+		printf("abydos-version: %s\n", ABYDOS_VERSION_STRING);
+
 	ar = abydos_create(gConfig.mimeType);
 	if(!ar)
 	{
@@ -26,15 +29,18 @@ void abydosconvert(void)
 
 	abydos_info_t info;
 	abydos_get_info(ar, &info);
-	printf("{ \"width\" : %d", info.width);
-	printf(", \"height\" : %d", info.height);
-	printf(", \"scalable\" : %s", info.features&ABYDOS_FEATURE_SCALABLE_SIZE ? "true" : "false");
-	printf(", \"animated\" : %s", abydos_can_animate(ar) ? "true" : "false");
-	printf(", \"pages\" : %d", pageCount);
-	printf(", \"layers\" : %d", abydos_get_layer_count(ar));
-	printf(", \"variants\" : %d", abydos_get_variant_count(ar));
-	printf(", \"frames\" : %d", abydos_get_frame_count(ar));
-	printf(", \"scalableTime\" : %s }\n", info.features&ABYDOS_FEATURE_SCALABLE_TIME ? "true" : "false");
+	if(gConfig.json)
+	{
+		printf("{ \"width\" : %d", info.width);
+		printf(", \"height\" : %d", info.height);
+		printf(", \"scalable\" : %s", info.features&ABYDOS_FEATURE_SCALABLE_SIZE ? "true" : "false");
+		printf(", \"animated\" : %s", abydos_can_animate(ar) ? "true" : "false");
+		printf(", \"pages\" : %d", pageCount);
+		printf(", \"layers\" : %d", abydos_get_layer_count(ar));
+		printf(", \"variants\" : %d", abydos_get_variant_count(ar));
+		printf(", \"frames\" : %d", abydos_get_frame_count(ar));
+		printf(", \"scalableTime\" : %s }\n", info.features&ABYDOS_FEATURE_SCALABLE_TIME ? "true" : "false");
+	}
 
 	for(int i=0;i<pageCount;i++)
 	{

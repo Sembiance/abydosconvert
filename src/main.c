@@ -11,6 +11,7 @@ static void usage(void)
 			"\n"
 			"Usage: abydosconvert [OPTIONS] mimeType inputFilePath outputDirPath\n"
 			"  -v, --verbose           Verbose output\n"
+			"  -j, --json              Output JSON info about the file\n"
 			"  -h, --help              Output this help and exit\n"
 			"  -V, --version           Output version and exit\n"
 			"\n", ABYDOSCONVERT_VERSION);
