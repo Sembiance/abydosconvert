@@ -45,7 +45,7 @@ static void parse_options(int argc, char **argv)
 		}
 		else if(!strcmp(argv[i],"-j") || !strcmp(argv[i], "--json"))
 		{
-			gConfig.verbose = true;
+			gConfig.json = true;
 		}
 		else
 		{
