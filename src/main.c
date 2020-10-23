@@ -1,6 +1,7 @@
 #include "abydosconvert.h"
 
 #include <unistd.h>
+#include <abydos.h>
 
 Config gConfig;
 
@@ -14,7 +15,9 @@ static void usage(void)
 			"  -j, --json              Output JSON info about the file\n"
 			"  -h, --help              Output this help and exit\n"
 			"  -V, --version           Output version and exit\n"
+			"  -l, --list              List valid mime types supported\n"
 			"\n", ABYDOSCONVERT_VERSION);
+
 	exit(EXIT_FAILURE);
 }
 
@@ -46,6 +49,13 @@ static void parse_options(int argc, char **argv)
 		else if(!strcmp(argv[i],"-j") || !strcmp(argv[i], "--json"))
 		{
 			gConfig.json = true;
+		}
+		else if(!strcmp(argv[i],"-l") || !strcmp(argv[i], "--list"))
+		{
+			const char ** mimeTypes = abydos_mime_types();
+			for(int m=0;mimeTypes[m]!=0;m++)
+				printf("%s\n", mimeTypes[m]);
+			exit(EXIT_SUCCESS);
 		}
 		else
 		{
