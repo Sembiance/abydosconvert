@@ -26,6 +26,13 @@ void abydosconvert(void)
 	}
 
 	int pageCount = abydos_get_page_count(ar);
+	if(pageCount==0)
+	{
+		fprintf(stderr, "No pages found for file: %s\n", gConfig.inputFilePath);
+		exit(EXIT_FAILURE);
+	}
+
+	abydos_set_page(ar, 0);
 
 	abydos_info_t info;
 	abydos_get_info(ar, &info);
@@ -50,7 +57,8 @@ void abydosconvert(void)
 		else
 			sprintf(suffix, ".%03d", i);
 		
-		abydos_set_page(ar, i);
+		if(i>0)
+			abydos_set_page(ar, i);
 
 		if(info.features&ABYDOS_FEATURE_SCALABLE_SIZE || abydos_can_animate(ar))
 		{
