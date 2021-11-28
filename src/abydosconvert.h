@@ -21,6 +21,7 @@ typedef struct
 {
 	bool verbose;
 	bool json;
+	bool pngOnly;
 	char * mimeType;
 	char * inputFilePath;
 	char * outputDirPath;

@@ -15,6 +15,7 @@ static void usage(void)
 			"  -j, --json              Output JSON info about the file\n"
 			"  -h, --help              Output this help and exit\n"
 			"  -V, --version           Output version and exit\n"
+			"  -p, --png               Only output PNG files, no svg/webp\n"
 			"  -l, --list              List valid mime types supported\n"
 			"\n", ABYDOSCONVERT_VERSION);
 
@@ -26,6 +27,7 @@ static void parse_options(int argc, char **argv)
 	int i;
 
 	gConfig.verbose = false;
+	gConfig.pngOnly = false;
 	gConfig.inputFilePath = 0;
 	gConfig.outputDirPath = 0;
 
@@ -45,6 +47,10 @@ static void parse_options(int argc, char **argv)
 		else if(!strcmp(argv[i],"-v") || !strcmp(argv[i], "--verbose"))
 		{
 			gConfig.verbose = true;
+		}
+		else if(!strcmp(argv[i],"-p") || !strcmp(argv[i], "--png"))
+		{
+			gConfig.pngOnly = true;
 		}
 		else if(!strcmp(argv[i],"-j") || !strcmp(argv[i], "--json"))
 		{

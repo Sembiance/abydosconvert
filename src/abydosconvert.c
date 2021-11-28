@@ -60,7 +60,7 @@ void abydosconvert(void)
 		if(i>0)
 			abydos_set_page(ar, i);
 
-		if(info.features&ABYDOS_FEATURE_SCALABLE_SIZE || abydos_can_animate(ar))
+		if((info.features&ABYDOS_FEATURE_SCALABLE_SIZE || abydos_can_animate(ar)) && !gConfig.pngOnly)
 		{
 			if(info.features&ABYDOS_FEATURE_SCALABLE_SIZE)
 			{
